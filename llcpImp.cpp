@@ -230,13 +230,23 @@ void ListClear(Node*& headPtr, int noMsg)
 {
    int count = 0;
 
+
    Node *cursor = headPtr;
+   cout << "Cursor data: " << cursor->data << endl;
+   cout << "Cursor link: " << cursor->link << endl;
+
+   cout << "Inside LC" << endl;
+
    while (headPtr != 0)
    {
+      cout << "Head != 0" << endl;
       headPtr = headPtr->link;
+      cout << "Headptr set to link" << endl;
       delete cursor;
+      cout << "Cursor del'd" << endl;
       cursor = headPtr;
       ++count;
+      cout << "Count++" << endl;
    }
    if (noMsg) return;
    clog << "Dynamic memory for " << count << " nodes freed"
@@ -244,3 +254,27 @@ void ListClear(Node*& headPtr, int noMsg)
 }
 
 // definition of RemBadSplitGood of Assignment 5 Part 1
+void RemBadSplitGood(Node*& L1, Node*& L2, Node*& L3)
+{
+   if (FindListLength(L1) == 0) { // Return if L1 is empty
+      cout << "L1 is empty." << endl;
+
+      Node *emptyNode1 = new Node;
+      Node *emptyNode2 = new Node;
+      Node *emptyNode3 = new Node;
+
+      emptyNode1->link = emptyNode2->link = emptyNode3->link = 0;
+      emptyNode1->data = emptyNode2->data = emptyNode3->data = -99;
+
+      L1 = emptyNode1;
+      L2 = emptyNode2;
+      L3 = emptyNode3;
+
+      cout << "Returning from RBSG" << endl;
+      return;
+   }
+
+   cout  << "Returning from RBSG" << endl;
+   return;
+}
+

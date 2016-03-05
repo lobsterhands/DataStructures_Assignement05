@@ -22,6 +22,6 @@ double FindAverage(Node* headPtr);
 void   ListClear(Node*& headPtr, int noMsg = 0);
 
 // prototype of RemBadSplitGood of Assignment 5 Part 1
+void RemBadSplitGood(Node*& L1, Node*& L2, Node*& L3);
 
 #endif
-

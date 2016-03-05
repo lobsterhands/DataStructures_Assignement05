@@ -45,8 +45,14 @@ int main()
        head_GE7->data == -99 && head_GE7->link == 0)
    {
       ListClear(head, 1);
+      cout << "Got this far 1." << endl;
+
       ListClear(head_LE5, 1);
+      cout << "Got this far 2." << endl;
+
       ListClear(head_GE7, 1);
+      cout << "Got this far 3." << endl;
+
       cout << "test with empty list ... passed" << endl;
    }
    else
@@ -54,6 +60,7 @@ int main()
       cout << "test with empty list ... failed" << endl;
       exit(EXIT_FAILURE);
    }
+
    cout << "================================" << endl;
 
    // SeedRand(); // disabled for reproducible result

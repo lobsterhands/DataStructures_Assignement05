@@ -271,33 +271,52 @@ void RemBadSplitGood(Node*& L1, Node*& L2, Node*& L3)
    // If L1 is not empty, process it
    cout << "ShowAll: ";
    ShowAll(cout, L1);
+   cout << " " << endl;
+
 
    Node *cursorL1 = L1;
+   Node *prev = cursorL1;
    while (cursorL1 != 0) {
       Node *current = cursorL1;
       Node *next = current->link;
       cout << "Current: " << current->data << endl;
+      cout << "Prev: " << prev->data << endl;
 
       if (next != 0) {
          cout << "Coming up next: " << next->data << endl;
       } else {
          cout << "End of the list." << endl;
       }
+      cout << " " << endl;
 
 //      if (cursorL1->data < 0 || cursorL1->data > 9) {
-      if (cursorL1->data == -2) {
-         cout << "Deleting" << endl;
+      if (cursorL1->data < 0) {
 
-         Node *deleteThisNode = cursorL1;
-         cursorL1 = cursorL1->link;
+         if (prev == current) {
+            cout << "Deleting" << endl;
+            cout << "Current: " << current->data << endl;
+            cout << "Prev: " << prev->data << endl;
 
-         cout << "deleteNode = " << deleteThisNode->data << endl;
-         cout << "cursorL1 = " << cursorL1->data << endl;
-         L1 = cursorL1;
-         delete deleteThisNode;
+            Node *deleteThisNode = cursorL1;
+            cursorL1 = cursorL1->link;
+
+            cout << "deleteNode = " << deleteThisNode->data << endl;
+            cout << "cursorL1 = " << cursorL1->data << endl;
+            delete deleteThisNode;
+            L1 = cursorL1;
+         } else {
+
+            Node *temp = current;
+            prev->link = current->link;
+            cout << "Previous points to " << prev->link->data << endl;
+            delete temp;
+            current = next;
+
+         }
       }
 
       cursorL1 = cursorL1->link;
+      prev = prev->link;
    }
 
    cout << " " << endl;

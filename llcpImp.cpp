@@ -126,6 +126,7 @@ void InsertSortedUp(Node*& headPtr, int value)
 
 bool DelFirstTargetNode(Node*& headPtr, int target)
 {
+
    Node *precursor = 0,
         *cursor = headPtr;
 
@@ -230,23 +231,16 @@ void ListClear(Node*& headPtr, int noMsg)
 {
    int count = 0;
 
-
    Node *cursor = headPtr;
-   cout << "Cursor data: " << cursor->data << endl;
-   cout << "Cursor link: " << cursor->link << endl;
 
    cout << "Inside LC" << endl;
 
    while (headPtr != 0)
    {
-      cout << "Head != 0" << endl;
       headPtr = headPtr->link;
-      cout << "Headptr set to link" << endl;
       delete cursor;
-      cout << "Cursor del'd" << endl;
       cursor = headPtr;
       ++count;
-      cout << "Count++" << endl;
    }
    if (noMsg) return;
    clog << "Dynamic memory for " << count << " nodes freed"
@@ -256,7 +250,7 @@ void ListClear(Node*& headPtr, int noMsg)
 // definition of RemBadSplitGood of Assignment 5 Part 1
 void RemBadSplitGood(Node*& L1, Node*& L2, Node*& L3)
 {
-   if (FindListLength(L1) == 0) { // Return if L1 is empty
+   if (FindListLength(L1) == 0) { // If L1 is empty
       cout << "L1 is empty." << endl;
 
       Node *emptyNode1 = new Node;
@@ -273,6 +267,47 @@ void RemBadSplitGood(Node*& L1, Node*& L2, Node*& L3)
       cout << "Returning from RBSG" << endl;
       return;
    }
+
+   // If L1 is not empty, process it
+   cout << "ShowAll: ";
+   ShowAll(cout, L1);
+
+   Node *cursorL1 = L1;
+   while (cursorL1 != 0) {
+      Node *current = cursorL1;
+      Node *next = current->link;
+      cout << "Current: " << current->data << endl;
+
+      if (next != 0) {
+         cout << "Coming up next: " << next->data << endl;
+      } else {
+         cout << "End of the list." << endl;
+      }
+
+//      if (cursorL1->data < 0 || cursorL1->data > 9) {
+      if (cursorL1->data == -2) {
+         cout << "Deleting" << endl;
+
+         Node *deleteThisNode = cursorL1;
+         cursorL1 = cursorL1->link;
+
+         cout << "deleteNode = " << deleteThisNode->data << endl;
+         cout << "cursorL1 = " << cursorL1->data << endl;
+         L1 = cursorL1;
+         delete deleteThisNode;
+      }
+
+      cursorL1 = cursorL1->link;
+   }
+
+   cout << " " << endl;
+   cout << "ShowAll: " << endl;
+   cout << "L1: ";
+   ShowAll(cout, L1);
+   cout << "L2: ";
+   ShowAll(cout, L2);
+   cout << "L3: ";
+   ShowAll(cout, L3);
 
    cout  << "Returning from RBSG" << endl;
    return;

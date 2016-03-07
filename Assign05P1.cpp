@@ -45,13 +45,10 @@ int main()
        head_GE7->data == -99 && head_GE7->link == 0)
    {
       ListClear(head, 1);
-      cout << "Got this far 1." << endl;
 
       ListClear(head_LE5, 1);
-      cout << "Got this far 2." << endl;
 
       ListClear(head_GE7, 1);
-      cout << "Got this far 3." << endl;
 
       cout << "test with empty list ... passed" << endl;
    }
@@ -281,6 +278,7 @@ bool match(Node* head, const int procInts[], int procSize)
    {
       if (iProc == procSize) return false;
       if (head->data != procInts[iProc]) return false;
+      ++iProc;
       ++iProc;
       head = head->link;
    }

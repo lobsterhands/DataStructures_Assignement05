@@ -248,87 +248,86 @@ void ListClear(Node*& headPtr, int noMsg)
 }
 
 // definition of RemBadSplitGood of Assignment 5 Part 1
-void RemBadSplitGood(Node*& L1, Node*& L2, Node*& L3)
-{
-   if (FindListLength(L1) == 0) { // If L1 is empty
-      cout << "L1 is empty." << endl;
+void RemBadSplitGood(Node*& L1Head, Node*& L2Head, Node*& L3Head) {
+   Node *dummyL1 = new Node;
+   Node *dummyL2 = new Node;
+   Node *dummyL3 = new Node;
+   dummyL1->data = -99;
+   dummyL2->data = -99;
+   dummyL3->data = -99;
+   dummyL1->link = 0;
+   dummyL2->link = 0;
+   dummyL3->link = 0;
 
-      Node *emptyNode1 = new Node;
-      Node *emptyNode2 = new Node;
-      Node *emptyNode3 = new Node;
-
-      emptyNode1->link = emptyNode2->link = emptyNode3->link = 0;
-      emptyNode1->data = emptyNode2->data = emptyNode3->data = -99;
-
-      L1 = emptyNode1;
-      L2 = emptyNode2;
-      L3 = emptyNode3;
-
-      cout << "Returning from RBSG" << endl;
+   if (L1Head == 0) {
+      L1Head = dummyL1;
+      L2Head = dummyL2;
+      L3Head = dummyL3;
       return;
    }
 
-   // If L1 is not empty, process it
-   cout << "ShowAll: ";
-   ShowAll(cout, L1);
-   cout << " " << endl;
 
-
-   Node *cursorL1 = L1;
-   Node *prev = cursorL1;
-   while (cursorL1 != 0) {
-      Node *current = cursorL1;
-      Node *next = current->link;
-      cout << "Current: " << current->data << endl;
-      cout << "Prev: " << prev->data << endl;
-
-      if (next != 0) {
-         cout << "Coming up next: " << next->data << endl;
-      } else {
-         cout << "End of the list." << endl;
-      }
+   Node *current = L1Head;
+   Node *prev = L1Head;
+   while (current != 0) {
+      int l1data = current->data;
+      int previous = prev->data;
+      cout << "This node is " << l1data << endl;
+      cout << "The prev node is " << previous << endl;
       cout << " " << endl;
 
-//      if (cursorL1->data < 0 || cursorL1->data > 9) {
-      if (cursorL1->data < 0) {
 
-         if (prev == current) {
-            cout << "Deleting" << endl;
-            cout << "Current: " << current->data << endl;
-            cout << "Prev: " << prev->data << endl;
-
-            Node *deleteThisNode = cursorL1;
-            cursorL1 = cursorL1->link;
-
-            cout << "deleteNode = " << deleteThisNode->data << endl;
-            cout << "cursorL1 = " << cursorL1->data << endl;
-            delete deleteThisNode;
-            L1 = cursorL1;
+      //out of bounds
+      if ((l1data < 0) || (l1data > 9)) {
+         cout << "It is out of bounds: delete it." << endl;
+         //delete it
+         //if head
+         if (current == L1Head) {
+            L1Head = L1Head->link;
+            Node *killMe = current;
+            current = L1Head;
+            prev = current;
+            delete killMe;
          } else {
-
-            Node *temp = current;
+            //if body
+            Node *killMe = current;
             prev->link = current->link;
-            cout << "Previous points to " << prev->link->data << endl;
-            delete temp;
-            current = next;
-
+//            prev = current; // Lyle, what is this doing / not doing?
+            // Doesn't seem to matter if I remove it...
+            current = current->link;
+            delete killMe;
          }
       }
 
-      cursorL1 = cursorL1->link;
-      prev = prev->link;
+      // == 6
+      if (l1data == 6) {
+         cout << "This is 6. Keep it." << endl;
+         current = current->link;
+         ShowAll(cout, L1Head);
+         cout << "l1data = " << l1data << ", current data = " << current->data << endl;
+      }
+
+      // 7-9
+      if ((l1data >= 7) && (l1data <=9)) {
+         prev = current;
+         current = current->link;
+      }
+
+
+      // 0-5
+      if ((l1data >= 0) && (l1data <= 5)) {
+         prev = current;
+         current = current->link;
+      }
+
    }
 
-   cout << " " << endl;
-   cout << "ShowAll: " << endl;
-   cout << "L1: ";
-   ShowAll(cout, L1);
-   cout << "L2: ";
-   ShowAll(cout, L2);
-   cout << "L3: ";
-   ShowAll(cout, L3);
-
-   cout  << "Returning from RBSG" << endl;
-   return;
+   cout << "L1Head: ";
+   ShowAll(cout, L1Head);
+   cout << "L2Head: ";
+   ShowAll(cout, L2Head);
+   cout << "L3Head: ";
+   ShowAll(cout, L3Head);
 }
+
 

@@ -1,4 +1,105 @@
-L1 is empty.
-Returning from RBSG
 ================================
-Got this far 1.
+Inside LC
+Inside LC
+Inside LC
+test with empty list ... passed
+================================
+L1Head: -2  6  7  -1  5  5  11  0  
+This node is -2
+The prev node is -2
+ 
+-2 is out of bounds: delete it.
+L1Head: 6  7  -1  5  5  11  0  
+L2Head: 
+L3Head: 
+This node is 6
+The prev node is 6
+ 
+This is 6. Keep it.
+L1Head: 6  7  -1  5  5  11  0  
+L2Head: 
+L3Head: 
+This node is 7
+The prev node is 6
+ 
+On 7-9 entrance:
+Previous: 6
+Current: 7
+Next: -1
+Previous is still: 6
+Previous points to: -1
+Current is now: -1
+Next is now: 5
+L1Head: 6  -1  5  5  11  0  
+L2Head: 
+L3Head: 7  
+This node is -1
+The prev node is 6
+ 
+-1 is out of bounds: delete it.
+L1Head: 6  5  5  11  0  
+L2Head: 
+L3Head: 7  
+This node is 5
+The prev node is 6
+ 
+On 0-5 entrance:
+Previous: 6
+Current: 5
+Previous is still: 6
+L1Head: 6  5  11  0  
+L2Head: 5  
+L3Head: 7  
+This node is 5
+The prev node is 6
+ 
+On 0-5 entrance:
+Previous: 6
+Current: 5
+Previous is still: 6
+Find the end of L2 and point the end's link to otherListPtr
+Read all of L2
+So the cursor in L2's data is: 5
+Other list pointer is: 5
+Set cursorL2 to point to otherListPtr
+L1Head: 6  11  0  
+L2Head: 5  5  
+L3Head: 7  
+This node is 11
+The prev node is 6
+ 
+11 is out of bounds: delete it.
+L1Head: 6  0  
+L2Head: 5  5  
+L3Head: 7  
+This node is 0
+The prev node is 6
+ 
+On 0-5 entrance:
+Previous: 6
+Current: 0
+Previous is still: 6
+Find the end of L2 and point the end's link to otherListPtr
+Read all of L2
+Looking for L2 tail
+5
+Reading current item
+So the cursor in L2's data is: 5
+Other list pointer is: 0
+Set cursorL2 to point to otherListPtr
+L1Head: 6  
+L2Head: 5  5  0  
+L3Head: 7  
+ 
+FINAL:
+L1Head: 6  
+L2Head: 5  5  0  
+L3Head: 7  
+Contents error ... mismatch found in value or order
+test case at issue: -2  6  7  -1  5  5  11  0  
+ought2b "==6 list": 6  
+        "<=5 list": 5  5  0  
+        ">=7 list": 7  
+outcome "==6 list": 6  
+        "<=5 list": 5  5  0  
+        ">=7 list": 7  

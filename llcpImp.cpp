@@ -270,6 +270,7 @@ void RemBadSplitGood(Node*& L1Head, Node*& L2Head, Node*& L3Head) {
    ShowAll(cout, L1Head);
 
 
+//   int count = 0;
    Node *current = L1Head;
    Node *prev = L1Head;
    Node *otherListPtr = 0;
@@ -337,13 +338,20 @@ void RemBadSplitGood(Node*& L1Head, Node*& L2Head, Node*& L3Head) {
             L3Head = otherListPtr;
             L3Head->link = 0;
          } else {
+            cout << "Find the end of L3 and point the end's link to otherListPtr" << endl;
+
             Node *cursorL3 = L3Head;
-            while (cursorL3 != 0) {
-               cout << "Looking for the tail for L3" << endl;
+            cout << "Read all of L3" << endl;
+            while (cursorL3->link != 0) {
+               cout << "Looking for L2 tail" << endl;
+               cout << cursorL3->data << endl;
+               cout << "Reading current item" << endl;
                cursorL3 = cursorL3->link;
             }
-            cursorL3 = otherListPtr;
-            cursorL3->link = 0;
+            cout << "So the cursor in L3's data is: " << cursorL3->data << endl;
+            otherListPtr->link = 0;
+            cursorL3->link = otherListPtr;
+            cout << "Set cursorL3 to point to otherListPtr" << endl;
          }
 
          cout << "Current is now: " << current->data << endl;
@@ -360,34 +368,52 @@ void RemBadSplitGood(Node*& L1Head, Node*& L2Head, Node*& L3Head) {
 
       // 0-5
       if ((l1data >= 0) && (l1data <= 5)) {
+
          cout << "On 0-5 entrance:" << endl;
          cout << "Previous: " << prev->data << endl;
          cout << "Current: " << current->data << endl;
-//         cout << "Next: " << current->link->data << endl;
          prev->link = current->link;
-//         cout << "Previous is still: " << prev->data << endl;
-//         cout << "Previous points to: " << prev->link->data << endl;
+         cout << "Previous is still: " << prev->data << endl;
          otherListPtr = current;
-         cout << "Other list pointer: " << otherListPtr->data << endl;
+         current = current->link;
 
          if (L2Head == 0) {
             L2Head = otherListPtr;
             L2Head->link = 0;
          } else {
+            cout << "Find the end of L2 and point the end's link to otherListPtr" << endl;
+
             Node *cursorL2 = L2Head;
+            cout << "Read all of L2" << endl;
             while (cursorL2->link != 0) {
-               cout << "Looking for the tail for L2" << endl;
+               cout << "Looking for L2 tail" << endl;
                cout << cursorL2->data << endl;
+               cout << "Reading current item" << endl;
                cursorL2 = cursorL2->link;
             }
-//            cout << "The end of L2 is: " << cursorL2 << endl;
-//            cout << "Other list pointer: " << otherListPtr->data << endl;
+            cout << "So the cursor in L2's data is: " << cursorL2->data << endl;
+
+            // Lyle: This is used to verify that L2 was inserting items in
+            // the correct order
+//            if (count < 1) {
+//               cout << "Gonna forcibly insert some shit: " << endl;
+//
+//               Node *temp = new Node;
+//               temp->data = 42;
+//               temp->link = 0;
+//               cursorL2->link = temp;
+//
+//               cursorL2 = cursorL2->link;
+//               count++;
+//            }
+//
+//
+//
+
             otherListPtr->link = 0;
+            cout << "Other list pointer is: " << otherListPtr->data << endl;
             cursorL2->link = otherListPtr;
-
-            current = current->link;
-//            break;
-
+            cout << "Set cursorL2 to point to otherListPtr" << endl;
          }
 
          cout << "L1Head: ";
@@ -398,6 +424,18 @@ void RemBadSplitGood(Node*& L1Head, Node*& L2Head, Node*& L3Head) {
          ShowAll(cout, L3Head);
       }
 
+   }
+
+   if (L1Head == 0) {
+      L1Head = dummyL1;
+   }
+
+   if (L2Head == 0) {
+      L2Head = dummyL1;
+   }
+
+   if (L3Head == 0) {
+      L3Head = dummyL1;
    }
 
    cout << " " << endl;
@@ -411,3 +449,6 @@ void RemBadSplitGood(Node*& L1Head, Node*& L2Head, Node*& L3Head) {
 }
 
 
+ //TODO: Figure out if my pointers at the my lists are not pointing to NULL
+   // this may be the bug I'm running into where the answer looks correct
+   // but, in fact, is not.

@@ -266,9 +266,13 @@ void RemBadSplitGood(Node*& L1Head, Node*& L2Head, Node*& L3Head) {
       return;
    }
 
+   cout << "L1Head: ";
+   ShowAll(cout, L1Head);
+
 
    Node *current = L1Head;
    Node *prev = L1Head;
+   Node *otherListPtr = 0;
    while (current != 0) {
       int l1data = current->data;
       int previous = prev->data;
@@ -276,10 +280,9 @@ void RemBadSplitGood(Node*& L1Head, Node*& L2Head, Node*& L3Head) {
       cout << "The prev node is " << previous << endl;
       cout << " " << endl;
 
-
       //out of bounds
       if ((l1data < 0) || (l1data > 9)) {
-         cout << "It is out of bounds: delete it." << endl;
+         cout << l1data << " is out of bounds: delete it." << endl;
          //delete it
          //if head
          if (current == L1Head) {
@@ -292,36 +295,113 @@ void RemBadSplitGood(Node*& L1Head, Node*& L2Head, Node*& L3Head) {
             //if body
             Node *killMe = current;
             prev->link = current->link;
-//            prev = current; // Lyle, what is this doing / not doing?
-            // Doesn't seem to matter if I remove it...
             current = current->link;
             delete killMe;
          }
+
+         cout << "L1Head: ";
+         ShowAll(cout, L1Head);
+         cout << "L2Head: ";
+         ShowAll(cout, L2Head);
+         cout << "L3Head: ";
+         ShowAll(cout, L3Head);
       }
 
       // == 6
       if (l1data == 6) {
          cout << "This is 6. Keep it." << endl;
          current = current->link;
+         // I may need to update previous pointer a 6 isn't at Head
+
+         cout << "L1Head: ";
          ShowAll(cout, L1Head);
-         cout << "l1data = " << l1data << ", current data = " << current->data << endl;
+         cout << "L2Head: ";
+         ShowAll(cout, L2Head);
+         cout << "L3Head: ";
+         ShowAll(cout, L3Head);
       }
 
       // 7-9
       if ((l1data >= 7) && (l1data <=9)) {
-         prev = current;
+         cout << "On 7-9 entrance:" << endl;
+         cout << "Previous: " << prev->data << endl;
+         cout << "Current: " << current->data << endl;
+         cout << "Next: " << current->link->data << endl;
+         prev->link = current->link;
+         cout << "Previous is still: " << prev->data << endl;
+         cout << "Previous points to: " << prev->link->data << endl;
+         otherListPtr = current;
          current = current->link;
+
+         if (L3Head == 0) {
+            L3Head = otherListPtr;
+            L3Head->link = 0;
+         } else {
+            Node *cursorL3 = L3Head;
+            while (cursorL3 != 0) {
+               cout << "Looking for the tail for L3" << endl;
+               cursorL3 = cursorL3->link;
+            }
+            cursorL3 = otherListPtr;
+            cursorL3->link = 0;
+         }
+
+         cout << "Current is now: " << current->data << endl;
+         cout << "Next is now: " << current->link->data << endl;
+
+         cout << "L1Head: ";
+         ShowAll(cout, L1Head);
+         cout << "L2Head: ";
+         ShowAll(cout, L2Head);
+         cout << "L3Head: ";
+         ShowAll(cout, L3Head);
       }
 
 
       // 0-5
       if ((l1data >= 0) && (l1data <= 5)) {
-         prev = current;
-         current = current->link;
+         cout << "On 0-5 entrance:" << endl;
+         cout << "Previous: " << prev->data << endl;
+         cout << "Current: " << current->data << endl;
+//         cout << "Next: " << current->link->data << endl;
+         prev->link = current->link;
+//         cout << "Previous is still: " << prev->data << endl;
+//         cout << "Previous points to: " << prev->link->data << endl;
+         otherListPtr = current;
+         cout << "Other list pointer: " << otherListPtr->data << endl;
+
+         if (L2Head == 0) {
+            L2Head = otherListPtr;
+            L2Head->link = 0;
+         } else {
+            Node *cursorL2 = L2Head;
+            while (cursorL2->link != 0) {
+               cout << "Looking for the tail for L2" << endl;
+               cout << cursorL2->data << endl;
+               cursorL2 = cursorL2->link;
+            }
+//            cout << "The end of L2 is: " << cursorL2 << endl;
+//            cout << "Other list pointer: " << otherListPtr->data << endl;
+            otherListPtr->link = 0;
+            cursorL2->link = otherListPtr;
+
+            current = current->link;
+//            break;
+
+         }
+
+         cout << "L1Head: ";
+         ShowAll(cout, L1Head);
+         cout << "L2Head: ";
+         ShowAll(cout, L2Head);
+         cout << "L3Head: ";
+         ShowAll(cout, L3Head);
       }
 
    }
 
+   cout << " " << endl;
+   cout << "FINAL:" << endl;
    cout << "L1Head: ";
    ShowAll(cout, L1Head);
    cout << "L2Head: ";

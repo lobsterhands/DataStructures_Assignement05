@@ -233,8 +233,6 @@ void ListClear(Node*& headPtr, int noMsg)
 
    Node *cursor = headPtr;
 
-   cout << "Inside LC" << endl;
-
    count = 0;
    while (headPtr != 0)
    {
@@ -268,27 +266,14 @@ void RemBadSplitGood(Node*& L1Head, Node*& L2Head, Node*& L3Head)
       return;
    }
 
-   int count = 0;
    Node *current = L1Head;
    Node *prev = L1Head;
    Node *otherListPtr = 0;
    while (current != 0) {
-//      count++;
-//      if (count > 8) {
-//         exit(0);
-//      }
       int l1data = current->data;
-      int previous = prev->data;
-      cout << "This node is " << l1data << endl;
-      cout << "The prev node is " << previous << endl;
-      if (current == prev) {
-         cout << "Current = previous" << endl;
-      }
-      cout << " " << endl;
 
       //out of bounds
       if ((l1data < 0) || (l1data > 9)) {
-         cout << l1data << " is out of bounds: delete it." << endl;
          //delete it
          //if head
          if (current == L1Head) {
@@ -304,54 +289,26 @@ void RemBadSplitGood(Node*& L1Head, Node*& L2Head, Node*& L3Head)
             current = current->link;
             delete killMe;
          }
-
-         cout << "L1Head: ";
-         ShowAll(cout, L1Head);
-         cout << "L2Head: ";
-         ShowAll(cout, L2Head);
-         cout << "L3Head: ";
-         ShowAll(cout, L3Head);
       }
 
       // == 6
       if (l1data == 6) {
-         cout << "This is 6. Keep it." << endl;
 
-         cout << "6 Case: " << endl;
-         cout << "Current: " << current << endl;
-         cout << "Prev: " << prev << endl;
-
+         // If previous point to current cursor, set previous to current before
+         // advancing current
          if (prev->link == current) {
             prev = current;
          }
-            current = current->link;
 
-
-         // I may need to update previous pointer a 6 isn't at Head
-
-         cout << "L1Head: ";
-         ShowAll(cout, L1Head);
-         cout << "L2Head: ";
-         ShowAll(cout, L2Head);
-         cout << "L3Head: ";
-         ShowAll(cout, L3Head);
+         current = current->link;
       }
 
       // 7-9
       if ((l1data >= 7) && (l1data <=9)) {
-         cout << "On 7-9 entrance:" << endl;
-         cout << "Previous: " << prev->data << endl;
-         cout << "Current: " << current->data << endl;
-         if (current->link != 0)
-            cout << "Next: " << current->link->data << endl;
          prev->link = current->link;
-         cout << "Previous is still: " << prev->data << endl;
-         if (prev->link != 0)
-            cout << "Previous points to: " << prev->link->data << endl;
          otherListPtr = current;
 
          if (current == L1Head) {
-            cout << "Current is the head. Prev and current should match." << endl;
             L1Head = current->link;
             prev = L1Head;
          }
@@ -359,51 +316,25 @@ void RemBadSplitGood(Node*& L1Head, Node*& L2Head, Node*& L3Head)
          current = current->link;
 
          if (L3Head == 0) {
-            cout << "L3 is empty; add first node" << endl;
             L3Head = otherListPtr;
             L3Head->link = 0;
          } else {
-            cout << "Find the end of L3 and point the end's link to otherListPtr" << endl;
-
             Node *cursorL3 = L3Head;
-            cout << "Read all of L3" << endl;
             while (cursorL3->link != 0) {
-               cout << "Looking for L2 tail" << endl;
-               cout << cursorL3->data << endl;
-               cout << "Reading current item" << endl;
                cursorL3 = cursorL3->link;
             }
-            cout << "So the cursor in L3's data is: " << cursorL3->data << endl;
             otherListPtr->link = 0;
-            cout << "Otherlist: " << otherListPtr->data << endl;
-            cout << "cursorL3: " << cursorL3->data << endl;
             cursorL3->link = otherListPtr;
-            cout << "Set cursorL3 to point to otherListPtr" << endl;
          }
-
-//         cout << "Current is now: " << current->data << endl;
-//         cout << "Next is now: " << current->link->data << endl;
-
-         cout << "L1Head: ";
-         ShowAll(cout, L1Head);
-         cout << "L2Head: ";
-         ShowAll(cout, L2Head);
-         cout << "L3Head: ";
-         ShowAll(cout, L3Head);
       }
 
 
       // 0-5
       if ((l1data >= 0) && (l1data <= 5)) {
-         cout << "On 0-5 entrance:" << endl;
-         cout << "Previous: " << prev->data << endl;
-         cout << "Current: " << current->data << endl;
          prev->link = current->link;
-         cout << "Previous is still: " << prev->data << endl;
          otherListPtr = current;
 
          if (current == L1Head) {
-            cout << "Current is the head. Prev and current should match." << endl;
             L1Head = current->link;
             prev = L1Head;
          }
@@ -411,34 +342,17 @@ void RemBadSplitGood(Node*& L1Head, Node*& L2Head, Node*& L3Head)
          current = current->link;
 
          if (L2Head == 0) {
-            cout << "L2Head is empty; add first node" << endl;
             L2Head = otherListPtr;
             L2Head->link = 0;
          } else {
-            cout << "Find the end of L2 and point the end's link to otherListPtr" << endl;
-
             Node *cursorL2 = L2Head;
-            cout << "Read all of L2" << endl;
             while (cursorL2->link != 0) {
-               cout << "Looking for L2 tail" << endl;
-               cout << cursorL2->data << endl;
-               cout << "Reading current item" << endl;
                cursorL2 = cursorL2->link;
             }
-            cout << "So the cursor in L2's data is: " << cursorL2->data << endl;
 
        otherListPtr->link = 0;
-            cout << "Other list pointer is: " << otherListPtr->data << endl;
             cursorL2->link = otherListPtr;
-            cout << "Set cursorL2 to point to otherListPtr" << endl;
          }
-
-         cout << "L1Head: ";
-         ShowAll(cout, L1Head);
-         cout << "L2Head: ";
-         ShowAll(cout, L2Head);
-         cout << "L3Head: ";
-         ShowAll(cout, L3Head);
       }
 
    }
@@ -454,18 +368,4 @@ void RemBadSplitGood(Node*& L1Head, Node*& L2Head, Node*& L3Head)
    if (L3Head == 0) {
       L3Head = dummyL3;
    }
-
-   cout << " " << endl;
-   cout << "FINAL:" << endl;
-   cout << "L1Head: ";
-   ShowAll(cout, L1Head);
-   cout << "L2Head: ";
-   ShowAll(cout, L2Head);
-   cout << "L3Head: ";
-   ShowAll(cout, L3Head);
 }
-
-
- //TODO: Figure out if my pointers at the my lists are not pointing to NULL
-   // this may be the bug I'm running into where the answer looks correct
-   // but, in fact, is not.

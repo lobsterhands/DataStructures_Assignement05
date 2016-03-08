@@ -249,90 +249,50 @@ void ListClear(Node*& headPtr, int noMsg)
 // definition of RemBadSplitGood of Assignment 5 Part 1
 void RemBadSplitGood(Node*& L1Head, Node*& L2Head, Node*& L3Head)
 {
-   Node *dummyL1 = new Node;
-   Node *dummyL2 = new Node;
-   Node *dummyL3 = new Node;
-   dummyL1->data = -99;
-   dummyL2->data = -99;
-   dummyL3->data = -99;
-   dummyL1->link = 0;
-   dummyL2->link = 0;
-   dummyL3->link = 0;
-
+   // If L1Head is empty, there is nothing to process. Simply create three
+   // nodes with the proper flag (-99) and null pointer and point each
+   // list to its respective node.
    if (L1Head == 0) {
+      Node *dummyL1 = new Node;
+      Node *dummyL2 = new Node;
+      Node *dummyL3 = new Node;
+
+      dummyL1->data = dummyL2->data = dummyL3->data = -99;
+      dummyL1->link = dummyL2->link = dummyL3->link = 0;
+
       L1Head = dummyL1;
       L2Head = dummyL2;
       L3Head = dummyL3;
       return;
    }
 
-   Node *current = L1Head;
-   Node *prev = L1Head;
-   Node *otherListPtr = 0;
-   while (current != 0) {
-      int l1data = current->data;
+   // If L1Head is not empty
+   Node *current = L1Head; // Create a pointer to track the current node
+   Node *prev = L1Head; // Create a pointer to track the previous node
+   Node *reassignPtr = 0; // Create a pointer for use by List 2 and List 3
+   while (current != 0) { // Traverse List 1
+      int currentData = current->data;
 
-      //out of bounds
-      if ((l1data < 0) || (l1data > 9)) {
-         //delete it
-         //if head
+      // Numbers out of bounds will be deleted from List 1
+      if ((currentData < 0) || (currentData > 9)) {
+         Node *killNode = current; // Create a pointer to the node for deletion
+
          if (current == L1Head) {
             L1Head = L1Head->link;
-            Node *killMe = current;
             current = L1Head;
             prev = current;
-            delete killMe;
          } else {
-            //if body
-            Node *killMe = current;
             prev->link = current->link;
             current = current->link;
-            delete killMe;
-         }
-      }
-
-      // == 6
-      if (l1data == 6) {
-
-         // If previous point to current cursor, set previous to current before
-         // advancing current
-         if (prev->link == current) {
-            prev = current;
          }
 
-         current = current->link;
+         delete killNode;
       }
 
-      // 7-9
-      if ((l1data >= 7) && (l1data <=9)) {
+      // Numbers in the range [0,5] go into List 2
+      if ((currentData >= 0) && (currentData <= 5)) {
          prev->link = current->link;
-         otherListPtr = current;
-
-         if (current == L1Head) {
-            L1Head = current->link;
-            prev = L1Head;
-         }
-
-         current = current->link;
-
-         if (L3Head == 0) {
-            L3Head = otherListPtr;
-            L3Head->link = 0;
-         } else {
-            Node *cursorL3 = L3Head;
-            while (cursorL3->link != 0) {
-               cursorL3 = cursorL3->link;
-            }
-            otherListPtr->link = 0;
-            cursorL3->link = otherListPtr;
-         }
-      }
-
-
-      // 0-5
-      if ((l1data >= 0) && (l1data <= 5)) {
-         prev->link = current->link;
-         otherListPtr = current;
+         reassignPtr = current;
 
          if (current == L1Head) {
             L1Head = current->link;
@@ -342,30 +302,72 @@ void RemBadSplitGood(Node*& L1Head, Node*& L2Head, Node*& L3Head)
          current = current->link;
 
          if (L2Head == 0) {
-            L2Head = otherListPtr;
+            L2Head = reassignPtr;
             L2Head->link = 0;
          } else {
             Node *cursorL2 = L2Head;
-            while (cursorL2->link != 0) {
+            while (cursorL2->link != 0) { // Traverse the list; find last node
                cursorL2 = cursorL2->link;
             }
-
-       otherListPtr->link = 0;
-            cursorL2->link = otherListPtr;
+            reassignPtr->link = 0;
+            cursorL2->link = reassignPtr;
          }
       }
 
+      // All 6's remain in List 1
+      if (currentData == 6) {
+         if (prev->link == current) {
+            prev = current;
+         }
+         current = current->link;
+      }
+
+      // Numbers in the range [7,9] go into List 3
+      if ((currentData >= 7) && (currentData <=9)) {
+         prev->link = current->link;
+         reassignPtr = current;
+
+         if (current == L1Head) {
+            L1Head = current->link;
+            prev = L1Head;
+         }
+
+         current = current->link;
+
+         if (L3Head == 0) {
+            L3Head = reassignPtr;
+            L3Head->link = 0;
+         } else {
+            Node *cursorL3 = L3Head;
+            while (cursorL3->link != 0) { // Traverse the list; find last node
+               cursorL3 = cursorL3->link;
+            }
+            reassignPtr->link = 0;
+            cursorL3->link = reassignPtr;
+         }
+      }
    }
 
+   // After List1 processing, check each list; if a list is empty, create a new
+   // node with the empty flag (-99) and a null pointer for that list.
    if (L1Head == 0) {
+      Node *dummyL1 = new Node;
+      dummyL1->data = -99;
+      dummyL1->link = 0;
       L1Head = dummyL1;
    }
 
    if (L2Head == 0) {
+      Node *dummyL2 = new Node;
+      dummyL2->data = -99;
+      dummyL2->link = 0;
       L2Head = dummyL2;
    }
 
    if (L3Head == 0) {
+      Node *dummyL3 = new Node;
+      dummyL3->data = -99;
+      dummyL3->link = 0;
       L3Head = dummyL3;
    }
 }

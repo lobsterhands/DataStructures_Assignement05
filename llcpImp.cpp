@@ -250,7 +250,7 @@ void ListClear(Node*& headPtr, int noMsg)
 void RemBadSplitGood(Node*& L1Head, Node*& L2Head, Node*& L3Head)
 {
    // If L1Head is empty, there is nothing to process. Simply create three
-   // nodes with the proper flag (-99) and null pointer and point each
+   // nodes with the proper empty flag (-99) and a null pointer and point each
    // list to its respective node.
    if (L1Head == 0) {
       Node *dummyL1 = new Node;
@@ -269,12 +269,12 @@ void RemBadSplitGood(Node*& L1Head, Node*& L2Head, Node*& L3Head)
    // If L1Head is not empty
    Node *current = L1Head; // Create a pointer to track the current node
    Node *prev = L1Head; // Create a pointer to track the previous node
-   Node *reassignPtr = 0; // Create a pointer for use by List 2 and List 3
+   Node *reassignPtr = 0; // Create a pointer to track node for reassignment
    while (current != 0) { // Traverse List 1
-      int currentData = current->data;
+      int thisData = current->data;
 
       // Numbers out of bounds will be deleted from List 1
-      if ((currentData < 0) || (currentData > 9)) {
+      if ((thisData < 0) || (thisData > 9)) {
          Node *killNode = current; // Create a pointer to the node for deletion
 
          if (current == L1Head) {
@@ -289,41 +289,17 @@ void RemBadSplitGood(Node*& L1Head, Node*& L2Head, Node*& L3Head)
          delete killNode;
       }
 
-      // Numbers in the range [0,5] go into List 2
-      if ((currentData >= 0) && (currentData <= 5)) {
-         prev->link = current->link;
-         reassignPtr = current;
-
-         if (current == L1Head) {
-            L1Head = current->link;
-            prev = L1Head;
-         }
-
-         current = current->link;
-
-         if (L2Head == 0) {
-            L2Head = reassignPtr;
-            L2Head->link = 0;
-         } else {
-            Node *cursorL2 = L2Head;
-            while (cursorL2->link != 0) { // Traverse the list; find last node
-               cursorL2 = cursorL2->link;
-            }
-            reassignPtr->link = 0;
-            cursorL2->link = reassignPtr;
-         }
-      }
-
       // All 6's remain in List 1
-      if (currentData == 6) {
+      if (thisData == 6) {
          if (prev->link == current) {
             prev = current;
          }
          current = current->link;
       }
 
-      // Numbers in the range [7,9] go into List 3
-      if ((currentData >= 7) && (currentData <=9)) {
+      // If data is in the range [0,5] or [7,9], process it
+      if ((thisData >= 0 && thisData <= 5) || (thisData >= 7 && thisData <= 9))
+      {
          prev->link = current->link;
          reassignPtr = current;
 
@@ -334,37 +310,63 @@ void RemBadSplitGood(Node*& L1Head, Node*& L2Head, Node*& L3Head)
 
          current = current->link;
 
-         if (L3Head == 0) {
-            L3Head = reassignPtr;
-            L3Head->link = 0;
-         } else {
-            Node *cursorL3 = L3Head;
-            while (cursorL3->link != 0) { // Traverse the list; find last node
-               cursorL3 = cursorL3->link;
+         // Data in the range [0,5] go into List 2
+         if ((thisData >= 0) && (thisData <= 5))
+         {
+            if (L2Head == 0)
+            {
+               L2Head = reassignPtr;
+               L2Head->link = 0;
+            } else {
+               Node *cursorL2 = L2Head;
+               while (cursorL2->link != 0) { // Find the last node
+                  cursorL2 = cursorL2->link;
+               }
+               reassignPtr->link = 0;
+               cursorL2->link = reassignPtr;
             }
-            reassignPtr->link = 0;
-            cursorL3->link = reassignPtr;
          }
+
+         // Data in the range [7,9] go into List 3
+         if ((thisData >= 7) && (thisData <=9))
+         {
+            if (L3Head == 0)
+            {
+               L3Head = reassignPtr;
+               L3Head->link = 0;
+            } else {
+               Node *cursorL3 = L3Head;
+               while (cursorL3->link != 0) { // Find the last node
+                  cursorL3 = cursorL3->link;
+               }
+               reassignPtr->link = 0;
+               cursorL3->link = reassignPtr;
+            }
+         }
+
       }
    }
 
    // After List1 processing, check each list; if a list is empty, create a new
    // node with the empty flag (-99) and a null pointer for that list.
-   if (L1Head == 0) {
+   if (L1Head == 0)
+   {
       Node *dummyL1 = new Node;
       dummyL1->data = -99;
       dummyL1->link = 0;
       L1Head = dummyL1;
    }
 
-   if (L2Head == 0) {
+   if (L2Head == 0)
+   {
       Node *dummyL2 = new Node;
       dummyL2->data = -99;
       dummyL2->link = 0;
       L2Head = dummyL2;
    }
 
-   if (L3Head == 0) {
+   if (L3Head == 0)
+   {
       Node *dummyL3 = new Node;
       dummyL3->data = -99;
       dummyL3->link = 0;
